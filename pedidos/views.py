@@ -1,13 +1,12 @@
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.http.response import JsonResponse
 from .models import Pedido
 from .serializers import PedidoSerializer
 from productos.models import Producto
 from productos.serializers import ProductoSerializer
-from cafeteria_be.permissions import IsCocinero, IsRecepcionista, IsRecepcionistaOrCocinero
-import json
+from cafeteria_be.permissions import IsCocinero, IsRecepcionista
+from rest_framework.permissions import IsAdminUser
 
 
 class PedidosViewSet(viewsets.ModelViewSet):
@@ -17,11 +16,11 @@ class PedidosViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         permission_classes = []
         if self.action == 'retrieve' or self.action == 'list':
-            permission_classes = [IsRecepcionistaOrCocinero]
+            permission_classes = [IsAdminUser|IsRecepcionista|IsCocinero]
         elif self.action == 'create' or self.action == 'update' or self.action == 'partial_update' or self.action == 'destroy':
-            permission_classes = [IsRecepcionista]
+            permission_classes = [IsAdminUser|IsRecepcionista]
         elif self.action == 'productos': # Endpoint custom
-            permission_classes = [IsRecepcionistaOrCocinero]
+            permission_classes = [IsAdminUser|IsRecepcionista|IsCocinero]
         return [permission() for permission in permission_classes]
 
     @action(detail=True, methods=['get'])
@@ -35,10 +34,7 @@ class PedidosViewSet(viewsets.ModelViewSet):
                 cantidad = producto['cantidad']
                 dict = {"producto:":ProductoSerializer(producto_detalle).data, "cantidad":cantidad}
                 lista_productos.append(dict)
-            # return Response(ProductoSerializer(lista_productos, many=True).data, 
-            #                 status=status.HTTP_200_OK)
-            print(lista_productos)
-            return JsonResponse(lista_productos, safe=False, status=200)
+            return Response(data=lista_productos, status=200)
         except Exception as e:
             print(e)
             return Response(None, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
