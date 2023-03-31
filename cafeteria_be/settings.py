@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'cafeteria_be.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'pruebaauth',
+        'NAME': 'cafeteriadb',
         'HOST': 'mongodb://localhost:27017/',
         'PORT': 27017,
         'ENFORCE_SCHEMA': False,
