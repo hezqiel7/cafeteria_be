@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Pedido
-import json
+from productos.models import Producto
 
 class ProductoCantidadSerializer(serializers.Serializer):
     producto_id = serializers.IntegerField()
@@ -13,6 +13,22 @@ class PedidoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pedido
         fields = ['id', 'mesa', 'listo', 'fecha_pedido', 'lista_productos', 'total_precio']
+        
+    def create(self, validated_data):
+        lista_productos = validated_data.get('lista_productos')
+        total = 0
+        for producto in lista_productos:
+            total += Producto.objects.get(pk=producto['producto_id']).precio * producto['cantidad']
+        validated_data['total_precio'] = total
+        return super().create(validated_data)
+    
+    def update(self, instance, validated_data):
+        lista_productos = validated_data.get('lista_productos')
+        total = 0
+        for producto in lista_productos:
+            total += Producto.objects.get(pk=producto['producto_id']).precio * producto['cantidad']
+        validated_data['total_precio'] = total
+        return super().update(instance, validated_data)
 
     # def to_representation(self, instance):
     #     representation = super().to_representation(instance)
