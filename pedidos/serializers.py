@@ -12,7 +12,7 @@ class PedidoSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Pedido
-        fields = ['id', 'mesa', 'listo', 'fecha_pedido', 'lista_productos', 'total_precio']
+        fields = ['id', 'mesa', 'listo', 'fecha_pedido', 'lista_productos', 'total_precio', 'nombre_cliente']
         
     def create(self, validated_data):
         lista_productos = validated_data.get('lista_productos')
