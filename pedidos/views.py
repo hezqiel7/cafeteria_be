@@ -32,7 +32,7 @@ class PedidosViewSet(viewsets.ModelViewSet):
             for producto in pedido.lista_productos:
                 producto_detalle = Producto.objects.get(pk=producto['producto_id'])
                 cantidad = producto['cantidad']
-                dict = {"producto:":ProductoSerializer(producto_detalle).data, "cantidad":cantidad}
+                dict = {"producto":ProductoSerializer(producto_detalle).data, "cantidad":cantidad}
                 lista_productos.append(dict)
             return Response(data=lista_productos, status=200)
         except Exception as e:
