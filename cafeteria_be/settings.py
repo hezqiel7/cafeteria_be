@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'djongo',
     'productos',
     'pedidos',
-    'corsheaders'
+    'usuarios',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
