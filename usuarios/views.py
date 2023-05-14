@@ -31,7 +31,7 @@ class UsuariosViewSet(viewsets.ModelViewSet):
         try:
             usuario = User.objects.get(pk=id_usuario)
             grupos = usuario.groups.all()
-            return Response(data=GrupoSerializer(grupos, many=True).data, status=200)
+            return Response(data=GrupoSerializer(grupos[0]).data, status=200)
         except Exception as e:
             print(e)
             return Response(None, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
