@@ -5,12 +5,22 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.contrib.auth.models import User
 from .serializers import UsuarioSerializer, GrupoSerializer
+from cafeteria_be.permissions import IsRecepcionista, IsCocinero
 
 
 class UsuariosViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
-    permission_classes = [IsAdminUser]
+
+    def get_permissions(self):
+        permission_classes = []
+        if self.action == 'retrieve' or self.action == 'list':
+            permission_classes = [IsAdminUser]
+        elif self.action == 'create' or self.action == 'update' or self.action == 'partial_update' or self.action == 'destroy':
+            permission_classes = [IsAdminUser]
+        elif self.action == 'grupos':  # Endpoint custom
+            permission_classes = [IsAdminUser | IsRecepcionista | IsCocinero]
+        return [permission() for permission in permission_classes]
 
     class Meta:
         model = User
