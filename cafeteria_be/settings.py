@@ -12,9 +12,14 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os, secrets
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Cargar las variables de entorno
+load_dotenv(BASE_DIR.parent.joinpath('.env'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,7 +32,6 @@ SECRET_KEY = 'django-insecure-=u#gcv7_9^9ny0h_a489n#3h06wb@%h=c8_5%88+hi)mwn(a3q
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -93,6 +97,7 @@ SIMPLE_JWT = {
     # "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ACCESS_TOKEN_LIFETIME": timedelta(days=7),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=15),
+    "SIGNING_KEY": os.environ.get('JWT_SECRET', secrets.token_urlsafe(32))
 }
 
 # CORS
@@ -101,15 +106,28 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'cafeteriadb',
+#         'HOST': 'mongodb://localhost:27017/',
+#         'PORT': 27017,
+#         'ENFORCE_SCHEMA': False,
+#         'USERNAME': 'admin',
+#         'PASSWORD': 'admin',
+#         'AUTH_MECHANISM': 'SCRAM-SHA-256',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'cafeteriadb',
-        'HOST': 'mongodb://localhost:27017/',
-        'PORT': 27017,
+        'NAME': os.environ.get('DB_NAME'),
+        'HOST': os.environ.get('DB_URL'),
+        # 'PORT': 27017,
         'ENFORCE_SCHEMA': False,
-        'USERNAME': 'admin',
-        'PASSWORD': 'admin',
+        'USERNAME': os.environ.get('MONGO_INITDB_ROOT_USERNAME'),
+        'PASSWORD': os.environ.get('MONGO_INITDB_ROOT_PASSWORD'),
         'AUTH_MECHANISM': 'SCRAM-SHA-256',
     }
 }
