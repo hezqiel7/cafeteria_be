@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
+import os
+import secrets
 from datetime import timedelta
-import os, secrets
+from pathlib import Path
+
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -106,31 +108,20 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'djongo',
-#         'NAME': 'cafeteriadb',
-#         'HOST': 'mongodb://localhost:27017/',
-#         'PORT': 27017,
-#         'ENFORCE_SCHEMA': False,
-#         'USERNAME': 'admin',
-#         'PASSWORD': 'admin',
-#         'AUTH_MECHANISM': 'SCRAM-SHA-256',
-#     }
-# }
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': os.environ.get('DB_NAME'),
-        'HOST': os.environ.get('DB_URL'),
-        # 'PORT': 27017,
-        'ENFORCE_SCHEMA': False,
-        'USERNAME': os.environ.get('MONGO_INITDB_ROOT_USERNAME'),
-        'PASSWORD': os.environ.get('MONGO_INITDB_ROOT_PASSWORD'),
-        'AUTH_MECHANISM': 'SCRAM-SHA-256',
+        'default': {
+            'ENGINE': 'djongo',
+            'NAME': os.environ.get('DB_NAME'),
+            'ENFORCE_SCHEMA': False,
+            'CLIENT': {
+                'host': os.environ.get('DB_URL'),
+                'port': 27017,
+                'username': os.environ.get('MONGO_INITDB_ROOT_USERNAME'),
+                'password': os.environ.get('MONGO_INITDB_ROOT_PASSWORD')
+            }
+        }
     }
-}
+
 
 
 # Password validation
