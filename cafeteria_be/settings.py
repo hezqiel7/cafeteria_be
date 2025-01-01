@@ -107,20 +107,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#         'default': {
-#             'ENGINE': 'djongo',
-#             'NAME': os.environ.get('DB_NAME'),
-#             'ENFORCE_SCHEMA': False,
-#             'CLIENT': {
-#                 'host': os.environ.get('DB_HOST'),
-#                 'port': int(os.environ.get('DB_PORT')),
-#                 'username': os.environ.get('DB_USER'),
-#                 'password': os.environ.get('DB_PASS')
-#             }
-#         }
-#     }
-
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
@@ -128,11 +114,11 @@ DATABASES = {
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
             'host': os.environ.get('DB_HOST'),
+            'ssl': True,
+            'ssl_cert_reqs': 'CERT_NONE'  # Change to 'CERT_REQUIRED' for production
         }
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
