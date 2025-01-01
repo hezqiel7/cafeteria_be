@@ -107,6 +107,11 @@ CORS_ALLOWED_ORIGINS = [
     'https://cafeteria-fe.onrender.com',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://cafeteria-be.onrender.com',
+    'https://cafeteria-fe.onrender.com',
+]
+
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
