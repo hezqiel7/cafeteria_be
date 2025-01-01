@@ -103,7 +103,7 @@ SIMPLE_JWT = {
 
 # CORS
 CORS_ALLOWED_ORIGINS = [
-    'cafeteria-be.onrender.com'
+    'cafeteria-be.onrender.com',
     'cafeteria-fe.onrender.com',
 ]
 
