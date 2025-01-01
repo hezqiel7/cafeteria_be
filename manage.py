@@ -19,7 +19,7 @@ def change_password(username, new_password):
 
 if __name__ == "__main__":
     # Configura Django antes de ejecutar cualquier cosa
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myproject.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cafeteria_be.settings")
     django.setup()
 
     # Aquí se puede pasar el nombre de usuario y la nueva contraseña a través de variables de entorno o argumentos
