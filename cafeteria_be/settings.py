@@ -21,8 +21,7 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Cargar las variables de entorno
-load_dotenv(BASE_DIR.parent.joinpath('.env'))
-
+load_dotenv(os.path.join(BASE_DIR, '.env'), override=True)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -114,10 +113,10 @@ DATABASES = {
             'NAME': os.environ.get('DB_NAME'),
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': os.environ.get('DB_URL'),
-                'port': 27017,
-                'username': os.environ.get('MONGO_INITDB_ROOT_USERNAME'),
-                'password': os.environ.get('MONGO_INITDB_ROOT_PASSWORD')
+                'host': os.environ.get('DB_HOST'),
+                'port': int(os.environ.get('DB_PORT')),
+                'username': os.environ.get('DB_USER'),
+                'password': os.environ.get('DB_PASS')
             }
         }
     }
