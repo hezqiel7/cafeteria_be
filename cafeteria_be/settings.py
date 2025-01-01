@@ -102,7 +102,10 @@ SIMPLE_JWT = {
 }
 
 # CORS
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [
+    'cafeteria-be.onrender.com'
+    'cafeteria-fe.onrender.com',
+]
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
